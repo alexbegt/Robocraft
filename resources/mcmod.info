@@ -1,0 +1,17 @@
+[{
+  "modid": "Robocraft",
+  "name": "Robocraft",
+  "description": "",
+  "version": "${version}",
+  "credits": "",
+  "mcversion": "${MCversion}",
+  "url": "",
+  "updateUrl": "",
+  "authors": [ "alexbegt", "DJPantheris" ],
+  "screenshots": [],
+  "parent": "",
+  "requiredMods": [],
+  "dependencies": [],
+  "dependants": [],
+  "useDependencyInformation": "false"
+}]
