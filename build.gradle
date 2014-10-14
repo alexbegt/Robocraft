@@ -18,11 +18,18 @@ buildscript {
 }
 
 repositories {
-	mavenLocal()
 	maven {
-          name 'ForgeFS'
-          url 'http://files.minecraftforge.net/maven'
-     }
+        name 'CB Maven FS'
+        url "http://chickenbones.net/maven/"
+    }
+    maven {
+        name 'DVS1 Maven FS'
+        url 'http://dvs1.progwml6.com/files/maven'
+    }
+    maven {
+        name 'ForgeFS'
+        url 'http://files.minecraftforge.net/maven'
+    }
 }
 
 
@@ -37,6 +44,18 @@ configFile.withReader {
     def prop = new Properties()
     prop.load(it)
     project.ext.config = new ConfigSlurper().parse prop
+}
+configurations {
+    deployerJars
+}
+
+dependencies {
+    compile "mantle:Mantle:${config.minecraft_version}-${config.mantle_version}:deobf"
+    compile "codechicken:CodeChickenLib:${config.minecraft_version}-${config.CCLIB_version}:dev"
+    compile "codechicken:CodeChickenCore:${config.minecraft_version}-${config.ccc_version}:dev"
+    compile "codechicken:NotEnoughItems:${config.minecraft_version}-${config.NEI_version}:dev"
+    //compile "mcp.mobius.waila:Waila:${config.waila_version}:dev"
+    deployerJars 'org.apache.maven.wagon:wagon-ssh:2.2'
 }
 
 // sets version to the slimeKnights default version format
@@ -54,12 +73,12 @@ task buildInfo {
     if (System.getenv().BUILD_NUMBER != null) {
         ext.buildNum = "jenkins${System.getenv().BUILD_NUMBER}"
     } else {
-        ext.buildNum = "DEV.${project.buildInfo.revision}"
+        ext.buildNum = "${project.buildInfo.revision}"
     }
 }
 ext.artifact_version = 'NFG'
 if (System.getenv().ARTIFACT_VERSION == null) {
-    artifact_version = "${config.mod_version}.${project.buildInfo.buildNum}"
+    artifact_version = "${config.mod_version}-${project.buildInfo.buildNum}"
 }
 if (System.getenv().ARTIFACT_VERSION != null) {
     artifact_version = "${system.getenv().ARTIFACT_VERSION}"
